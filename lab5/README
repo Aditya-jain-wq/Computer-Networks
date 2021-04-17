@@ -1,0 +1,21 @@
+Compile:
+
+gcc -o server server.c
+gcc -o client client.c
+
+Run:
+
+./server
+./client
+
+
+Things to keep in mind:
+1. Always run server before client and give port number before running client.
+2. Server asks for port number only
+3. Client ask for ip address and port once only and iteratively ask filename.
+4. Don't close server before client. Only when there is no client then server can be closed.
+5. To close client type "exit" (case sensitive) when asked for filename.
+6. To close server press ctrl+c.
+7. Length of file name should be less than 120.
+8. Code also works if bytes in file is less than 10.
+

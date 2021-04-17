@@ -1,0 +1,25 @@
+This code works in Linux.
+
+Before running code make sure you have OpenSSL library, for Ubuntu use below commands:
+
+1.sudo apt update
+2.sudo apt install libssl-dev
+
+Compile:
+
+gcc -Wall -o client client.c -L/usr/lib -lssl -lcrypto
+
+Run:
+
+./client https://legislative.gov.in/sites/default/files/COI-updated.pdf
+
+
+Second argument of run command(that is http://legislative.gov.in/sites/default/files/COI-updated.pdf) can be changed to any url you like of a file.
+
+
+Things to keep in mind:
+1. In case of large files being download it might take some time as buffer length is small.
+2. If response is not "200 OK" code prints header and exits.
+3. If response is "200 OK" then file is downloaded and saved.
+4. Everything works.
+

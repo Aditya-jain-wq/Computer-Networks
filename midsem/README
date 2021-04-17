@@ -1,0 +1,26 @@
+Compile:
+
+gcc -o server server.c
+gcc -o client client.c
+
+Run:
+
+./server 12345
+./client 127.0.0.1 12345
+
+Port number can be changed to anything you want rather than 12345.
+IP should be either "localhost" or "127.0.0.1" which is same.
+
+There are 2 pcapng files in folder:
+Communication.pcapng :- All packets captured during communication of client and server. It includes 3 clients connection as shown in screen shot in pdf.
+Relevant.pcapng :- It is subset of Communication.pcapng containing only relevant packets i.e. the packets which are sent from clients to server with message in it.
+
+
+Things to keep in mind:
+1. Always run server before client.
+2. Server asks for port number only as CLA
+3. Client ask for ip address and port as CLA.
+4. Don't close server before client. Only when there is no client then server can be closed.
+5. To close server press ctrl+c.
+6. Length of message sent should be less than 1500 bytes.
+
