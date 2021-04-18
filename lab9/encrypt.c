@@ -41,8 +41,6 @@ int main(int argc, char *argv[]){
 	int count = fread(msg, sizeof(char), size, inputfile);
 	msg[count] = '\0';
 
-	printf("msg = %s\n", msg);
-
 	RSA *rsa = NULL;
 	BIO *keybio = BIO_new_mem_buf(pubkey, -1);
 	if (keybio==NULL){
@@ -64,6 +62,9 @@ int main(int argc, char *argv[]){
 
 	fclose(outputfile);
 	fclose(inputfile);
-	printf("Encrypted Message saved successfully.\nEncrypted msg len = %d\n", res);
+	printf("\nEncrypted Message saved successfully.\nEncrypted msg len = %d\n", res);
 	return 0;
 }
+
+
+// gcc -o decrypt decrypt.c -lssl -lcrypto 

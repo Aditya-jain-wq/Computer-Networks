@@ -62,6 +62,6 @@ int main(int argc, char *argv[]){
 
 	fclose(outputfile);
 	fclose(inputfile);
-	printf("Decrypted message saved successfully.\nDecrypted msg len = %d\n", res);
+	printf("\nDecrypted message saved successfully.\nDecrypted msg len = %d\n", res);
 	return 0;
 }
