@@ -16,47 +16,52 @@ int main(int argc, char *argv[]){
 	}
 
 	int padding = RSA_PKCS1_PADDING;
-	unsigned char encrypted[1000000], msg[2048];
+	unsigned char encrypted[1000000];
+	char decrypted[2048];
 
 	char *key = argv[1];
 	FILE *inputfile = fopen(argv[2], "r");
 	if(inputfile == NULL){
-		printf("there is no such inputfile.\n");
+		printf("there is no such encrypted file.\n");
 		return 0;
 	}
 
-	unsigned char pubkey[2048];
-	strcat((char *)pubkey, "-----BEGIN PUBLIC KEY-----\n");
+	unsigned char prikey[1000000];
+	strcat((char *)prikey, "-----BEGIN RSA PRIVATE KEY-----\n");
 	for(int i = 0; i < strlen(key); i+= 64){
-		strncat((char *)pubkey, key+i, 64);
-		strcat((char *)pubkey, "\n");
+		strncat((char *)prikey, key+i, 64);
+		strcat((char *)prikey, "\n");
 	}
-	strcat((char *)pubkey, "-----END PUBLIC KEY-----\n");
+	strcat((char *)prikey, "-----END RSA PRIVATE KEY-----\n\0");
 	
-	int count = fread(msg, sizeof(char), 2048, inputfile);
-	msg[count] = '\0';
+	fseek(inputfile, 0, SEEK_END);
+	int size = 	ftell(inputfile);
+	fseek(inputfile, 0, SEEK_SET);
+
+	int count = fread(encrypted, sizeof(char), size, inputfile);
+	encrypted[count] = '\0';
 
 	RSA *rsa = NULL;
-	BIO *keybio = BIO_new_mem_buf(pubkey, -1);
+	BIO *keybio = BIO_new_mem_buf(prikey, -1);
 	if (keybio==NULL){
 		printf( "Failed to create key BIO.\n");
 		return 0;
 	}
 	
-	rsa = PEM_read_bio_RSA_PUBKEY(keybio, &rsa, NULL, NULL);
+	rsa = PEM_read_bio_RSAPrivateKey(keybio, &rsa, NULL, NULL);
 	if(rsa == NULL){
 		printf( "Failed to create RSA.\n");
 		return 0;
 	}
 
-	int res = RSA_public_encrypt(count, (unsigned char *)msg, (unsigned char *)encrypted, rsa, padding);
-
+	int res = RSA_private_decrypt(count, encrypted, (unsigned char *)decrypted, rsa, padding);
+	
 	FILE *outputfile = fopen(argv[3], "w");
-	int count2 = fwrite(encrypted, sizeof(char), res, outputfile);
+	int count2 = fwrite(decrypted, sizeof(char), res, outputfile);
 
-	printf("count2 = %d\n", count2);
 
 	fclose(outputfile);
 	fclose(inputfile);
+	printf("Decrypted message saved successfully.\nDecrypted msg len = %d\n", res);
 	return 0;
 }

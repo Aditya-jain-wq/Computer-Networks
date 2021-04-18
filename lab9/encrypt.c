@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <string.h>
-// #include <stdlib.h>
+#include <stdlib.h>
 #include <openssl/pem.h>
 #include <openssl/ssl.h>
 #include <openssl/rsa.h>
@@ -16,7 +16,8 @@ int main(int argc, char *argv[]){
 	}
 
 	int padding = RSA_PKCS1_PADDING;
-	unsigned char encrypted[1000000], msg[2048];
+	unsigned char encrypted[1000000];
+	char msg[2048];
 
 	char *key = argv[1];
 	FILE *inputfile = fopen(argv[2], "r");
@@ -25,16 +26,22 @@ int main(int argc, char *argv[]){
 		return 0;
 	}
 
-	unsigned char pubkey[2048];
+	unsigned char pubkey[1000000];
 	strcat((char *)pubkey, "-----BEGIN PUBLIC KEY-----\n");
 	for(int i = 0; i < strlen(key); i+= 64){
 		strncat((char *)pubkey, key+i, 64);
 		strcat((char *)pubkey, "\n");
 	}
-	strcat((char *)pubkey, "-----END PUBLIC KEY-----\n");
+	strcat((char *)pubkey, "-----END PUBLIC KEY-----\n\0");
 	
-	int count = fread(msg, sizeof(char), 2048, inputfile);
+	fseek(inputfile, 0, SEEK_END);
+	int size = 	ftell(inputfile);
+	fseek(inputfile, 0, SEEK_SET);
+
+	int count = fread(msg, sizeof(char), size, inputfile);
 	msg[count] = '\0';
+
+	printf("msg = %s\n", msg);
 
 	RSA *rsa = NULL;
 	BIO *keybio = BIO_new_mem_buf(pubkey, -1);
@@ -49,14 +56,14 @@ int main(int argc, char *argv[]){
 		return 0;
 	}
 
-	int res = RSA_public_encrypt(count, (unsigned char *)msg, (unsigned char *)encrypted, rsa, padding);
+	int res = RSA_public_encrypt(count, (unsigned char*)msg, encrypted, rsa, padding);
 
 	FILE *outputfile = fopen(argv[3], "w");
 	int count2 = fwrite(encrypted, sizeof(char), res, outputfile);
 
-	printf("count2 = %d\n", count2);
 
 	fclose(outputfile);
 	fclose(inputfile);
+	printf("Encrypted Message saved successfully.\nEncrypted msg len = %d\n", res);
 	return 0;
 }
