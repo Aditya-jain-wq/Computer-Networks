@@ -45,7 +45,7 @@ int main(int argc, char *argv[]){
 
 		int listening = listen(socket_desc, 1);
 		int len = sizeof(struct sockaddr_in);
-
+		
 		int* accepted = malloc(sizeof(int));
 		*accepted = accept(socket_desc, (struct sockaddr*) &client,(socklen_t*) &len);
 		if(*accepted < 0){

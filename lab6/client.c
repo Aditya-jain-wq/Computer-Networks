@@ -63,12 +63,3 @@ int main(int argc, char *argv[]){
 	shutdown(socket_desc, 2);
 	return 0;
 }
-
-
-
-
-// https://music.youtube.com/img/on_platform_logo_dark.svg
-
-// http://info.cern.ch/hypertext/WWW/TheProject.html
-
-// https://line-mode.cern.ch/css/linemode.css
