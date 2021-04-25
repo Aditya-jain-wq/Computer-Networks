@@ -67,7 +67,7 @@ int main(int argc, char *argv[]){
 		close(accepted1);
 		close(accepted2);
 	}
-	
+
 	return 0;
 }
 
@@ -75,9 +75,9 @@ int main(int argc, char *argv[]){
 void* lenadena(void* param){
 	int accepted1 = *((int *)param);
 	int accepted2 = *(((int *)param)+1);
-	char msg[2048] = {0};
+	char msg[4096] = {0};
 	int count = 0;
-	while((count = recv(accepted1, msg, 2048, 0)) > 0){
+	while((count = recv(accepted1, msg, 4096, 0)) > 0){
 		msg[count] = '\0';
 		send(accepted2, msg, count, 0);
 	}	
