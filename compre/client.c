@@ -67,11 +67,12 @@ int main(int argc, char *argv[]){
 		encrypted[count] = '\0';
 		
 		int res = RSA_private_decrypt(count, encrypted, (unsigned char *)msg, rsa, padding);
-
+		msg[res] = '\0';
 		if(strcmp(msg, "exit") == 0)
 			break;
 
 		printf("ciphertext:%s\nplaintext:%s\n", encrypted, msg);
+		fflush(stdout);
 	}
 	close(socket_desc);
 	fclose(decrypt_key);
@@ -93,7 +94,7 @@ void* upload(void* param){
 	}
 	
 	RSA *rsa = RSA_new();
-	rsa = PEM_read_RSA_PUBKEY(keyfile, &rsa, NULL, NULL);
+	rsa = PEM_read_RSA_PUBKEY(encrypt_key, &rsa, NULL, NULL);
 	if(rsa == NULL){
 		printf( "Failed to create RSA.\n");
 		return 0;
@@ -104,8 +105,7 @@ void* upload(void* param){
 		msg[strlen(msg) - 1] = '\0';
 
 		int res = RSA_public_encrypt(strlen(msg), (unsigned char*)msg, encrypted, rsa, padding);
-
-		send(socket_desc, encrypted, strlen(encrypted), 0);
+		send(socket_desc, encrypted, res, 0);
 
 		if(strcmp(msg, "exit") == 0)
 			break;
@@ -120,3 +120,4 @@ void* upload(void* param){
 }
 
 
+// gcc -o client client.c -lpthread -lrt -lssl -lcrypto

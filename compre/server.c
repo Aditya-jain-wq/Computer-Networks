@@ -85,3 +85,4 @@ void* lenadena(void* param){
 }
 
 
+// gcc -o server server.c -lpthread -lrt

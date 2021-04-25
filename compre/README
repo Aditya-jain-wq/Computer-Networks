@@ -1,0 +1,36 @@
+Compilation commands:
+
+	gcc -o server server.c -lpthread -lrt
+	gcc -o client client.c -lpthread -lrt -lssl -lcrypto
+
+
+
+Execution commands:
+
+server:		./server 12345
+client1:	./client 127.0.0.1 12345 private_key_pair1.pem public_key_pair2.pem 
+client2:	./client 127.0.0.1 12345 private_key_pair2.pem public_key_pair1.pem 
+
+
+
+Sample Run/Syntax:
+
+server:		./server <port_number_of_server>
+client:		./client <IP_address_of_server> <port_number_of_server> <private_key_of_self> <other_client's_public_key>
+
+
+Things to keep in mind
+1. Server should always start before clients.
+2. Port number can be anything.
+3. IF you want, you can also generate your new public and private key pair and code will work on it.
+	for that run following commands on terminal:
+		openssl genrsa -out private.pem 16384
+		openssl rsa -in private.pem -outform PEM -pubout -out public.pem
+
+	from these two commands you will get a pair of private and public key,
+	make two pairs of these with different name.
+	Now we call a pair for a client,
+	so for client1 in command line argument pass private key of pair 1 and public key of pair 2
+	and for client 2 pass private key of pair 2 and public key of pair 1.
+
+
