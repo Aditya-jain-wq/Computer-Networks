@@ -84,5 +84,3 @@ void* lenadena(void* param){
 	pthread_exit(0);
 }
 
-
-// gcc -o server server.c -lpthread -lrt

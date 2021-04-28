@@ -119,5 +119,3 @@ void* upload(void* param){
 	exit(0);
 }
 
-
-// gcc -o client client.c -lpthread -lrt -lssl -lcrypto

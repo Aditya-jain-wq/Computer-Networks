@@ -31,6 +31,7 @@ Things to keep in mind
 	make two pairs of these with different name.
 	Now we call a pair for a client,
 	so for client1 in command line argument pass private key of pair 1 and public key of pair 2
-	and for client 2 pass private key of pair 2 and public key of pair 1.
+	and for client2 pass private key of pair 2 and public key of pair 1.
+4. Makefile is included that has commands for compilation. To execute use commands given above as execution commands.
 
 
