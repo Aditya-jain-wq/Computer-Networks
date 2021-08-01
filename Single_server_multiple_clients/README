@@ -1,3 +1,5 @@
+Single server can communicate with less than or equal to four clients at same time and 5th client is rejected while four clients are open.
+
 Compile:
 
 gcc -o server server.c -lpthread -lrt

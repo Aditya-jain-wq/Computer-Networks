@@ -1,3 +1,6 @@
+Encrypted client-to-client-communication via server. RSA encryption is used to encrypt msg.
+Any client can msg at any-time, so there is no sequence fixed as request/response for client communication.
+
 Compilation commands:
 
 	gcc -o server server.c -lpthread -lrt

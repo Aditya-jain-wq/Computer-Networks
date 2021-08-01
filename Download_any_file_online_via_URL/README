@@ -1,3 +1,6 @@
+This can download any online file via URL. You just need to provide http/https url as CLA to program.
+It can not handle redirects.
+
 This code works in Linux.
 
 Before running code make sure you have OpenSSL library, for Ubuntu use below commands:
