@@ -1,3 +1,5 @@
+Client request a file by sending filename to server. If file is present in server directory then it sends this file to client via tcp socket.
+
 Compile:
 
 gcc -o server server.c

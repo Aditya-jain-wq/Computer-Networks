@@ -1,3 +1,6 @@
+These server and client communicate with help of FIFO special file which is created with help of mkfifo syscall in linux.
+
+
 Compile:
 
 In one terminal run "gcc -o client client.c"
@@ -11,3 +14,5 @@ type "./server" to run server.
 
 Type anything you want but make sure you type a single word, basically without any spaces.
 You may use underscore in place of space.
+
+
